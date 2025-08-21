@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "total_points": 8000,
+    "overall_quality": 0.7382116852628449,
+    "processing_time": 0.002997159957885742
+  },
+  "detailed_metrics": {
+    "density": {
+      "value": 1000.6939501347505,
+      "status": "PASS",
+      "threshold": 1000
+    },
+    "noise_level": {
+      "value": 0.5669043372087124,
+      "status": "FAIL",
+      "threshold": 0.05
+    },
+    "completeness": {
+      "value": 1.0,
+      "status": "PASS",
+      "threshold": 0.9
+    },
+    "geometric_accuracy": {
+      "value": 0.9528467410513795,
+      "status": "PASS"
+    }
+  },
+  "timestamp": 1755786663.203579
+}
