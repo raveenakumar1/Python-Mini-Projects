@@ -3,23 +3,20 @@ import math
 from zxcvbn import zxcvbn
 from datetime import datetime, timedelta
 
-#this function takes seconds and makes them into pretty human readable time
-#because nobody wants to see "100000 seconds" when "1 day 3 hours" is better
+#this function takes seconds and makes them into readable time
 def format_crack_time(seconds):
     """Convert seconds to a human-readable time format"""
     if seconds < 1:
         return "less than a second"
     
     #break down the seconds into all the different time units
-    #like how many minutes are in those seconds, then hours in those minutes
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     months, days = divmod(days, 30)
     years, months = divmod(months, 12)
     
-    #build a list of the time parts that actually have value
-    #we don't want to say "0 years 0 months 0 days" etc
+    #build a list of the time parts that have value
     time_units = []
     if years >= 1:
         time_units.append(f"{int(years)} year{'s' if years > 1 else ''}")
@@ -34,11 +31,10 @@ def format_crack_time(seconds):
     if seconds >= 1 and len(time_units) < 2:
         time_units.append(f"{int(seconds)} second{'s' if seconds > 1 else ''}")
     
-    #only show the two most significant time units to keep it clean
+    #only show the two most significant time units 
     return ", ".join(time_units[:2])
 
-#convert the number score into words that people can understand better
-#because "score 4" doesn't mean much but "Strong" does
+#convert the number score into words 
 def get_strength_label(score):
     """Convert numeric score to text label"""
     labels = {
@@ -50,7 +46,7 @@ def get_strength_label(score):
     }
     return labels.get(score, "Very Weak")
 
-#get pretty colors for the terminal output based on how good the password is
+#get colors for the terminal output based on how good the password is
 #red for bad, yellow for okay, green for good passwords
 def get_color(score):
     """Get color based on score"""
@@ -63,20 +59,16 @@ def get_color(score):
     }
     return colors.get(score, "\033[91m")
 
-#using the zxcvbn library to check password
-#for the work of figuring out how strong the password really is
+#using the zxcvbn library to check password for the work of figuring out how strong the password really is
 def analyze_password(password):
     """Analyze password using zxcvbn"""
     if not password:
         return None
     
-    #the library does the actual analysis and returns lots of useful information
-    #about how long it would take to crack and what patterns it found
     results = zxcvbn(password)
     return results
 
-#show the results in a nice formatted way that's easy to read and understand
-#with colors and clear information about what makes the password good or bad
+#formatting results
 def display_results(results, password):
     """Display results in a formatted way"""
     if not results:
@@ -114,7 +106,6 @@ def display_results(results, password):
             print(f"  - {suggestion}")
     
     #show what patterns were found in the password if available
-    #this helps understand why it got the score it did
     if 'sequence' in results:
         print(f"\nPattern analysis:")
         for i, seq in enumerate(results['sequence']):
@@ -123,7 +114,7 @@ def display_results(results, password):
     
     print("="*60)
 
-#command line interface for people who like typing commands
+#command line interface option
 #it keeps asking for passwords until you tell it to stop
 def cli_interface():
     """Command-line interface for password strength checking"""
@@ -142,7 +133,6 @@ def cli_interface():
         display_results(results, password)
 
 #make a graphical interface for people who don't like command line
-#it uses tkinter which comes with python but might not be on all systems
 def simple_gui():
     """Simple GUI interface using Tkinter"""
     try:
@@ -154,8 +144,8 @@ def simple_gui():
         cli_interface()
         return
     
-    #this function gets called every time you type in the password box
-    #it updates the strength display in real time as you type
+    #this function gets called every time someone type in the password box
+    #updates the strength display in real time as someone types
     def update_strength(event=None):
         password = password_entry.get()
         if not password:
@@ -242,7 +232,6 @@ def simple_gui():
 #this is where the program actually starts running when you execute it
 if __name__ == "__main__":
     #check if a password was provided as a command line argument
-    #this lets you run it like: python script.py mypassword
     if len(sys.argv) > 1:
         password = " ".join(sys.argv[1:])
         results = analyze_password(password)
