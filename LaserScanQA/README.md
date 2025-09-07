@@ -13,7 +13,6 @@ A Python framework for assessing the quality of laser scan point cloud data. Thi
 ## Installation
 
 1. Clone or download this repository
-2. Ensure you have Python 3.7+ installed
 3. Install required dependencies:
 ```bash
 pip install numpy
